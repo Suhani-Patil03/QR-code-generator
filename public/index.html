@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QuickQR | The Gold Standard in QR</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet">
+    <style>
+        :root { --primary: #6366f1; --accent: #a855f7; --bg: #030712; }
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: var(--bg); color: white; overflow-x: hidden; }
+
+        /* Animated Mesh Background */
+        .mesh-bg {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1;
+            background: radial-gradient(circle at 0% 0%, rgba(99, 102, 241, 0.15) 0%, transparent 35%),
+                        radial-gradient(circle at 100% 100%, rgba(168, 85, 247, 0.15) 0%, transparent 35%);
+        }
+
+        .navbar-brand { font-weight: 800; font-size: 1.8rem; background: linear-gradient(to right, #fff, #818cf8); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+
+        .hero-title { font-size: clamp(3rem, 8vw, 5rem); font-weight: 800; letter-spacing: -3px; line-height: 0.95; margin-bottom: 2rem; }
+        .hero-subtitle { color: #94a3b8; font-size: 1.25rem; max-width: 650px; margin: 0 auto 3rem; }
+
+        .btn-premium {
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            border: none; padding: 18px 45px; border-radius: 50px; color: white;
+            font-weight: 700; transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 10px 30px rgba(99, 102, 241, 0.4); text-decoration: none; display: inline-block;
+        }
+        .btn-premium:hover { transform: scale(1.05) translateY(-5px); color: white; box-shadow: 0 20px 40px rgba(99, 102, 241, 0.6); }
+
+        .feature-card {
+            background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 30px; padding: 40px; transition: all 0.3s ease; height: 100%;
+        }
+        .feature-card:hover { 
+            background: rgba(255, 255, 255, 0.06); border-color: var(--primary);
+            box-shadow: 0 0 30px rgba(99, 102, 241, 0.1);
+        }
+        .icon-box { 
+            width: 60px; height: 60px; border-radius: 18px; 
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.2), rgba(168, 85, 247, 0.2));
+            display: flex; align-items: center; justify-content: center; margin-bottom: 25px;
+            color: var(--primary); font-size: 1.5rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="mesh-bg"></div>
+
+    <nav class="navbar py-4">
+        <div class="container d-flex justify-content-between">
+            <a class="navbar-brand" href="#">QuickQR.</a>
+            <a href="generator.html" class="btn btn-outline-light rounded-pill px-4 fw-bold">Try Generator</a>
+        </div>
+    </nav>
+
+    <header class="container text-center py-5 mt-5">
+        <h1 class="hero-title">QR Codes,<br>Reimagined for <span style="color: var(--primary)">Humans.</span></h1>
+        <p class="hero-subtitle">The world's most elegant, privacy-focused QR engine. Generate professional-grade assets for your brand in seconds.</p>
+        <a href="generator.html" class="btn-premium">Get Started for Free <i class="fa-solid fa-arrow-right ms-2"></i></a>
+    </header>
+
+    <section class="container py-5 mt-5">
+        <div class="row g-4">
+            <div class="col-lg-4">
+                <div class="feature-card">
+                    <div class="icon-box"><i class="fa-solid fa-bolt"></i></div>
+                    <h4 class="fw-bold">Ultra-Fast</h4>
+                    <p class="text-secondary">Engineered for speed. Generate and download without ever leaving your workflow.</p>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="feature-card">
+                    <div class="icon-box"><i class="fa-solid fa-shield-halved"></i></div>
+                    <h4 class="fw-bold">Zero-Tracking</h4>
+                    <p class="text-secondary">Your data belongs to you. We don't log URLs, IPs, or scan metadata. Period.</p>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="feature-card">
+                    <div class="icon-box"><i class="fa-solid fa-expand"></i></div>
+                    <h4 class="fw-bold">Infinity Res</h4>
+                    <p class="text-secondary">Download in high-fidelity PNG or SVG formats optimized for billboards or business cards.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+</body>
+</html>

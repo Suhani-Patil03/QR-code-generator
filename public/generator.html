@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Creator Space | QuickQR</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet">
+    <style>
+        :root { --primary: #6366f1; --accent: #a855f7; }
+        body { 
+            background: #030712; 
+            font-family: 'Plus Jakarta Sans', sans-serif; 
+            color: white; 
+            min-height: 100vh; 
+            display: flex; 
+            align-items: center;
+            background-image: radial-gradient(circle at 50% 50%, #111827 0%, #030712 100%);
+        }
+        
+        .app-window {
+            background: white; border-radius: 40px; overflow: hidden;
+            box-shadow: 0 50px 100px rgba(0,0,0,0.6); width: 100%; max-width: 1000px; margin: 40px auto;
+            color: #1e293b; display: flex; flex-wrap: wrap;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .sidebar { background: #0f172a; color: white; padding: 50px; flex: 1; min-width: 320px; position: relative; }
+        .main-content { padding: 50px; flex: 1.2; min-width: 320px; background: #fff; }
+
+        .input-group-custom {
+            background: #f1f5f9; border-radius: 16px; padding: 5px;
+            border: 2px solid transparent; transition: 0.3s; margin-bottom: 20px;
+        }
+        .input-group-custom:focus-within { border-color: var(--primary); background: #fff; box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1); }
+        
+        #urlInput { border: none; background: transparent; padding: 15px; font-weight: 600; width: 100%; color: #1e293b; }
+        #urlInput:focus { outline: none; }
+
+        .btn-generate {
+            background: linear-gradient(135deg, #0f172a, #1e293b); color: white; border-radius: 16px; padding: 18px;
+            width: 100%; font-weight: 700; border: none; transition: 0.3s;
+        }
+        .btn-generate:hover { transform: translateY(-3px); box-shadow: 0 10px 20px rgba(0,0,0,0.2); background: var(--primary); }
+
+        #qrPreview {
+            background: #f8fafc; border: 2px dashed #e2e8f0; border-radius: 30px;
+            aspect-ratio: 1/1; display: flex; align-items: center; justify-content: center;
+            margin-top: 30px; transition: 0.3s;
+        }
+        
+        #qrImage { max-width: 80%; border-radius: 12px; display: none; filter: drop-shadow(0 10px 15px rgba(0,0,0,0.1)); }
+
+        .download-zone { display: none; margin-top: 20px; text-align: center; animation: fadeInUp 0.5s ease; }
+        @keyframes fadeInUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        .btn-download {
+            background: #f1f5f9; color: #0f172a; border: 2px solid #e2e8f0;
+            padding: 12px 30px; border-radius: 50px; font-weight: 700; text-decoration: none;
+            display: inline-block; transition: 0.3s;
+        }
+        .btn-download:hover { background: #0f172a; color: white; border-color: #0f172a; }
+
+        .sidebar h3 { letter-spacing: -1px; }
+        .sidebar .badge { background: var(--primary); font-size: 0.7rem; vertical-align: middle; }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="app-window">
+            <div class="sidebar">
+                <a href="index.html" class="text-white text-decoration-none d-block mb-5">
+                    <h3 class="fw-800">QuickQR <span class="badge rounded-pill">PRO</span></h3>
+                </a>
+                <h2 class="fw-800 mb-4" style="line-height: 1.2;">Your links, <br>made scannable.</h2>
+                <p class="text-white-50 mb-5">Enter any URL to generate a high-definition QR code. Perfect for menus, business cards, and social media.</p>
+                
+                <div class="d-flex align-items-center mb-4">
+                    <div class="me-3 text-primary"><i class="fa-solid fa-circle-check fa-xl"></i></div>
+                    <div><h6 class="mb-0">High-Resolution</h6><small class="text-white-50">300 DPI ready for print</small></div>
+                </div>
+                <div class="d-flex align-items-center mb-4">
+                    <div class="me-3 text-primary"><i class="fa-solid fa-circle-check fa-xl"></i></div>
+                    <div><h6 class="mb-0">No Expiration</h6><small class="text-white-50">Static codes last forever</small></div>
+                </div>
+            </div>
+
+            <div class="main-content">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h4 class="fw-800 m-0">Create QR</h4>
+                    <a href="index.html" class="text-muted small text-decoration-none hover-primary"><i class="fa-solid fa-xmark"></i></a>
+                </div>
+
+                <div class="input-group-custom">
+                    <input type="text" id="urlInput" placeholder="https://yourwebsite.com" autocomplete="off">
+                </div>
+
+                <button onclick="generateQR()" class="btn-generate">
+                    Generate Code <i class="fa-solid fa-wand-magic-sparkles ms-2"></i>
+                </button>
+
+                <div id="qrPreview">
+                    <div id="placeholder" class="text-center opacity-25">
+                        <i class="fa-solid fa-qrcode fa-4x mb-2"></i>
+                        <p class="small fw-bold">PREVIEW</p>
+                    </div>
+                    <img id="qrImage" alt="QR Result">
+                    <div id="loader" class="spinner-border text-primary" style="display:none" role="status"></div>
+                </div>
+
+                <div class="download-zone" id="downloadZone">
+                    <button onclick="downloadQR()" class="btn-download">
+                        <i class="fa-solid fa-cloud-arrow-down me-2"></i> Download PNG
+                    </button>
+                    <p class="text-muted x-small mt-2" style="font-size: 0.7rem;">Your file is ready for high-quality printing.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentQRUrl = "";
+
+        async function generateQR() {
+            const val = document.getElementById("urlInput").value.trim();
+            const img = document.getElementById("qrImage");
+            const loader = document.getElementById("loader");
+            const placeholder = document.getElementById("placeholder");
+            const downloadZone = document.getElementById("downloadZone");
+
+            if(!val) {
+                document.getElementById("urlInput").parentElement.style.borderColor = "#ef4444";
+                return;
+            }
+
+            // Reset UI
+            document.getElementById("urlInput").parentElement.style.borderColor = "transparent";
+            placeholder.style.display = "none";
+            img.style.display = "none";
+            downloadZone.style.display = "none";
+            loader.style.display = "block";
+
+            // API Construction
+            currentQRUrl = `https://api.qrserver.com/v1/create-qr-code/?size=500x500&data=${encodeURIComponent(val)}`;
+            
+            // Image Load Handling
+            const tempImg = new Image();
+            tempImg.crossOrigin = "anonymous"; // Important for canvas/blobs
+            tempImg.onload = () => {
+                loader.style.display = "none";
+                img.src = currentQRUrl;
+                img.style.display = "block";
+                downloadZone.style.display = "block";
+            };
+            tempImg.src = currentQRUrl;
+        }
+
+        // Stunning "Force Download" Logic
+        async function downloadQR() {
+            if (!currentQRUrl) return;
+            
+            try {
+                const response = await fetch(currentQRUrl);
+                const blob = await response.blob();
+                const blobUrl = window.URL.createObjectURL(blob);
+                
+                const link = document.createElement('a');
+                link.href = blobUrl;
+                link.download = "QuickQR_Export.png";
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+                
+                // Cleanup
+                window.URL.revokeObjectURL(blobUrl);
+            } catch (error) {
+                console.error("Download failed", error);
+                // Fallback for browsers that block blob fetches
+                window.open(currentQRUrl, '_blank');
+            }
+        }
+    </script>
+</body>
+</html>
